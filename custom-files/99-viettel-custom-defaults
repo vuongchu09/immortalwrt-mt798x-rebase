@@ -7,4 +7,8 @@ if uci -q get upnpd.config > /dev/null; then
 	uci -q commit upnpd
 fi
 
+# Đổi IP LAN sang 192.168.68.1
+uci -q set network.lan.ipaddr='192.168.68.1'
+uci -q commit network
+
 exit 0
