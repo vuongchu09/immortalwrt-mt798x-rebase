@@ -27,9 +27,6 @@ require_enabled CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_viettel_32x6
 for symbol in \
     CONFIG_PACKAGE_luci-theme-aurora \
     CONFIG_PACKAGE_luci-app-aurora-config \
-    CONFIG_PACKAGE_luci-app-turboacc-mtk \
-    CONFIG_PACKAGE_luci-app-upnp \
-    CONFIG_PACKAGE_luci-app-ddns \
     CONFIG_PACKAGE_luci-app-adblock \
     CONFIG_PACKAGE_luci-proto-wireguard; do
     require_enabled "$symbol"
