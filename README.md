@@ -29,7 +29,7 @@ Tải bản mới nhất tại [Releases](https://github.com/quytttb/immortalwrt
 ## Điểm chính của bản fork
 
 - LED WAN riêng cho từng board.
-- Giao diện Aurora, TurboACC, UPnP, DDNS, WireGuard, Adblock và mặc định phù hợp Việt Nam.
+- Giao diện Aurora, WireGuard, Adblock và mặc định phù hợp Việt Nam. TurboACC, UPnP, DDNS, Tailscale, SQM, terminal web và Samba không được cài sẵn.
 - Band steering được hỗ trợ ở driver nhưng tắt mặc định (`BandSteering=0`) để không ép thiết bị khách đổi băng tần.
 - NR3053 và 32X6 dùng toàn bộ UBI còn lại làm overlay. Không có volume `/mnt/storage` riêng; APK, cấu hình, log và file tải về đều ở overlay. Luôn chừa dung lượng trống cho hệ thống và nâng cấp.
 
