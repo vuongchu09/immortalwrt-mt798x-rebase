@@ -11,7 +11,7 @@
 
 > **Lưu ý:** WireGuard không có app LuCI riêng (`luci-app-wireguard`). Trên ImmortalWrt 25.12, cấu hình qua **luci-proto-wireguard** tại mục Interfaces. DDNS không được cài sẵn; chỉ cài thêm nếu cần hostname cho WireGuard khi IP public thay đổi.
 
-> **NAT kép:** Nếu router nằm sau modem chủ nhà (WAN `192.168.1.x`), WireGuard + DDNS **cần modem mở port forward UDP 51820** mới vào được từ ngoài. Không mở được port trên modem thì cần giải pháp VPN mesh khác (cài riêng, không có trong firmware fork).
+> **NAT kép:** Nếu router nằm sau modem chủ nhà (WAN `192.168.1.x`), truy cập WireGuard từ ngoài cần modem mở port forward UDP 51820. DDNS không được cài sẵn; không mở được port trên modem thì cần giải pháp VPN mesh cài riêng.
 
 ---
 
@@ -102,9 +102,11 @@ Cấu hình qua LuCI **Network → Interfaces → Add → WireGuard**, hoặc UC
 
 ---
 
-## 3. Dynamic DNS (No-IP)
+## 3. DDNS tùy chọn (No-IP; cần tự cài thêm)
 
 ### Lưu ý WAN kép
+
+Firmware không cài sẵn DDNS. Các bước dưới đây chỉ áp dụng sau khi tự cài các gói DDNS cần thiết.
 
 Nếu WAN router là IP private (`192.168.1.x`), đặt **IP source = web** (không dùng `network`):
 
