@@ -18,11 +18,15 @@ size_of() {
 cat <<EOF_BODY
 ## ImmortalWrt ${VERSION}
 
-ImmortalWrt 25.12 (filogic / MT7981) cho Viettel NR3053 va 32X6.
+ImmortalWrt 25.12 (filogic / MT7981) cho Viettel NR3053.
 
-> **Luu y USB:** Chuc nang USB trong release nay chi danh cho Viettel **NR3053 da mod phan cung USB**. Khong dung ban nay de kich hoat USB tren 32X6 hoac NR3053 chua mod USB.
+> **Luu y USB:** Chuc nang USB chi hoat dong tren NR3053 da mod phan cung USB; firmware khong kich hoat USB tren thiet bi chua mod.
 
-Moi thiet bi co 4 file + \`sha256sums\`. Kich thuoc ben duoi duoc lay truc tiep tu artifact da build.
+Firmware tich hop AdGuard Home va WireGuard. AGH duoc cai san nhung dich vu mac dinh tat den khi quan tri vien cau hinh DNS.
+
+Cac goi da bo gom Adblock cu, EQoS, cac module SQM va cac tien ich khong can cho profile toi gian.
+
+Ban NR3053 co 4 file + \`sha256sums\`. Kich thuoc duoc lay truc tiep tu artifact da build.
 
 ### Viettel NR3053
 
@@ -32,15 +36,6 @@ Moi thiet bi co 4 file + \`sha256sums\`. Kich thuoc ben duoi duoc lay truc tiep 
 | \`immortalwrt-mediatek-filogic-viettel_nr3053-initramfs-recovery.itb\` | Recovery RAM | $(size_of immortalwrt-mediatek-filogic-viettel_nr3053-initramfs-recovery.itb) | UART / TFTP test (bootmenu [2]) |
 | \`immortalwrt-mediatek-filogic-viettel_nr3053-bl31-uboot.fip\` | BL31 + U-Boot | $(size_of immortalwrt-mediatek-filogic-viettel_nr3053-bl31-uboot.fip) | Nang cap U-Boot (bootmenu [7]) |
 | \`immortalwrt-mediatek-filogic-viettel_nr3053-preloader.bin\` | BL2 preloader | $(size_of immortalwrt-mediatek-filogic-viettel_nr3053-preloader.bin) | Nang cap BL2 (bootmenu [8], **rui ro cao**) |
-
-### Viettel 32X6
-
-| File | Thanh phan | Kich thuoc | Cach dung |
-|------|------------|------------|-----------|
-| \`immortalwrt-mediatek-filogic-viettel_32x6-squashfs-sysupgrade.itb\` | Firmware | $(size_of immortalwrt-mediatek-filogic-viettel_32x6-squashfs-sysupgrade.itb) | sysupgrade / TFTP (bootmenu [5]) |
-| \`immortalwrt-mediatek-filogic-viettel_32x6-initramfs-recovery.itb\` | Recovery RAM | $(size_of immortalwrt-mediatek-filogic-viettel_32x6-initramfs-recovery.itb) | UART / TFTP test (bootmenu [2]) |
-| \`immortalwrt-mediatek-filogic-viettel_32x6-bl31-uboot.fip\` | BL31 + U-Boot | $(size_of immortalwrt-mediatek-filogic-viettel_32x6-bl31-uboot.fip) | Nang cap U-Boot (bootmenu [7]) |
-| \`immortalwrt-mediatek-filogic-viettel_32x6-preloader.bin\` | BL2 preloader | $(size_of immortalwrt-mediatek-filogic-viettel_32x6-preloader.bin) | Nang cap BL2 (bootmenu [8], **rui ro cao**) |
 
 - Bootloader source: [quytttb/bl-mt798x-dhcpd](https://github.com/quytttb/bl-mt798x-dhcpd), pinned revision \`${BOOTLOADER_REVISION}\`.
 - Huong dan nap firmware: [docs/huong-dan-nap-firmware.md](https://github.com/quytttb/immortalwrt-mt798x-rebase/blob/main/docs/huong-dan-nap-firmware.md)

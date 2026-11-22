@@ -1,21 +1,21 @@
 # ImmortalWrt MT798x cho router Viettel
 
-Firmware ImmortalWrt 25.12 cho **Viettel NR3053** và **Viettel 32X6**, dựa trên [chasey-dev/immortalwrt-mt798x-rebase](https://github.com/chasey-dev/immortalwrt-mt798x-rebase). Nhánh `main` là nhánh mặc định, dùng để build và phát hành firmware.
+Firmware ImmortalWrt 25.12 cho **Viettel NR3053**, dựa trên [chasey-dev/immortalwrt-mt798x-rebase](https://github.com/chasey-dev/immortalwrt-mt798x-rebase). Nhánh `main` hiện chỉ build và phát hành firmware NR3053.
 
-## Thiết bị hỗ trợ
+## Thiết bị trong bản build
 
-| | Viettel NR3053 | Viettel 32X6 |
-|---|---|---|
-| SoC | MediaTek MT7981B | MediaTek MT7981B |
-| RAM | 512 MB DDR3 | 128 MB DDR3 |
-| Flash | 128 MB SPI-NAND (UBI) | 128 MB SPI-NAND (UBI) |
-| Cổng mạng | 3 LAN + 1 WAN | 2 LAN + 1 WAN |
-| IP LAN mặc định | `192.168.1.1` | `192.168.1.1` |
-| Trạng thái | Đã test phần cứng | Đã test phần cứng |
+| | Viettel NR3053 |
+|---|---|
+| SoC | MediaTek MT7981B |
+| RAM | 512 MB DDR3 |
+| Flash | 128 MB SPI-NAND (UBI) |
+| Cổng mạng | 3 LAN + 1 WAN |
+| IP LAN mặc định | `192.168.1.1` |
+| Trạng thái | Đã test phần cứng |
 
 ## Dùng firmware có sẵn
 
-Tải bản mới nhất tại [Releases](https://github.com/quytttb/immortalwrt-mt798x-rebase/releases), rồi chọn file **đúng model**.
+Tải bản mới nhất tại [Releases](https://github.com/vuongchu09/immortalwrt-mt798x-rebase/releases), rồi chọn file **đúng model**.
 
 | File | Mục đích |
 |---|---|
@@ -24,14 +24,16 @@ Tải bản mới nhất tại [Releases](https://github.com/quytttb/immortalwrt
 | `*-bl31-uboot.fip` | Nâng cấp U-Boot — tải từ [quytttb/bl-mt798x-dhcpd Releases](https://github.com/quytttb/bl-mt798x-dhcpd/releases) |
 | `*-preloader.bin` | Nâng cấp BL2 — rủi ro cao, tải từ [quytttb/bl-mt798x-dhcpd Releases](https://github.com/quytttb/bl-mt798x-dhcpd/releases) |
 
-> Không dùng file của NR3053 cho 32X6 hoặc ngược lại. Đọc [hướng dẫn nạp firmware](docs/huong-dan-nap-firmware.md) trước khi ghi NAND, FIP hoặc BL2.
+> Release này chỉ dành cho NR3053. Đọc [hướng dẫn nạp firmware](docs/huong-dan-nap-firmware.md) và chọn file `*-squashfs-sysupgrade.itb` trước khi nâng cấp.
 
 ## Điểm chính của bản fork
 
-- LED WAN riêng cho từng board.
-- Giao diện Aurora, WireGuard, Adblock và mặc định phù hợp Việt Nam. TurboACC, UPnP, DDNS, Tailscale, SQM, terminal web và Samba không được cài sẵn.
-- Band steering được hỗ trợ ở driver nhưng tắt mặc định (`BandSteering=0`) để không ép thiết bị khách đổi băng tần.
-- NR3053 và 32X6 dùng toàn bộ UBI còn lại làm overlay. Không có volume `/mnt/storage` riêng; APK, cấu hình, log và file tải về đều ở overlay. Luôn chừa dung lượng trống cho hệ thống và nâng cấp.
+- LED WAN riêng cho NR3053.
+- Aurora, WireGuard và AdGuard Home đã có trong firmware. AGH mặc định tắt dịch vụ để tránh xung đột DNS trước khi cấu hình.
+- Không cài TurboACC, EQoS, UPnP, DDNS, Tailscale, SQM, terminal web, Samba hoặc Adblock cũ.
+- Profile build và Release hiện chỉ chọn NR3053, không tạo firmware 32X6.
+- Band steering được hỗ trợ ở driver nhưng tắt mặc định (`BandSteering=0`).
+- NR3053 dùng toàn bộ UBI còn lại làm overlay; luôn chừa dung lượng trống cho hệ thống và nâng cấp.
 
 ## Build từ mã nguồn
 
@@ -44,13 +46,12 @@ bash scripts/install-deps.sh
 bash scripts/build-viettel.sh
 ```
 
-Build script chuẩn bị feeds, kiểm tra Aurora vendored, áp dụng bản dịch, defconfig hai thiết bị, tải source và build; artifact được chép vào `dist/`. Script kiểm tra đủ 8 file đặc thù hai board, xác minh `sha256sums` và sinh `dist/release-notes.md` từ artifact thực tế.
+Build script chuẩn bị feeds, áp dụng bản dịch, chọn cấu hình NR3053, build firmware và bootloader rồi chép artifact vào `dist/`. Script kiểm tra 4 file NR3053, `sha256sums` và sinh `dist/release-notes.md`.
 
 Để chỉ tạo image cho một thiết bị sau khi đã build package:
 
 ```bash
 make target/linux/install V=s TARGET=mediatek SUBTARGET=filogic DEVICE=viettel_nr3053
-# hoặc DEVICE=viettel_32x6
 ```
 
 Kết quả gốc nằm trong `bin/targets/mediatek/filogic/`; luôn kiểm tra `sha256sums` trước khi nạp.
@@ -60,7 +61,7 @@ Kết quả gốc nằm trong `bin/targets/mediatek/filogic/`; luôn kiểm tra 
 Hướng dẫn đầy đủ có TFTP, U-Boot bootmenu, UART, sysupgrade và recovery:
 
 - [Nạp firmware](docs/huong-dan-nap-firmware.md)
-- [Cấu hình WireGuard, DDNS và Adblock](docs/huong-dan-tinh-nang-mo-rong.md)
+- [Cấu hình AdGuard Home và WireGuard](docs/huong-dan-tinh-nang-mo-rong.md)
 - [Nghiên cứu MediaTek EasyMesh cho NR3053](docs/trien-khai-mediatek-easymesh.md)
 
 Quy trình an toàn: boot `initramfs-recovery.itb` qua TFTP để test trước, sau đó mới ghi `squashfs-sysupgrade.itb`. Chỉ nâng cấp FIP hoặc BL2 khi có lý do cụ thể và đã chuẩn bị đường recovery.

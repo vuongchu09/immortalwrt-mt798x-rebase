@@ -36,7 +36,7 @@ build_bootloaders() {
     echo ""
     echo "=== Bước 7: Build bootloader external ($BOOTLOADER_REVISION) ==="
     mkdir -p "$bootloader_dir/output"
-    for board in viettel_32x6 viettel_nr3053; do
+    for board in viettel_nr3053; do
         rm -f "$bootloader_dir"/output/*"$board"*"$BOOTLOADER_VERSION"*
         make -C "$bootloader_dir" \
             BOARD="$board" VERSION="$BOOTLOADER_VERSION" VARIANT=default BUILD_LOG=y
@@ -74,8 +74,7 @@ echo "=== Bước 7: Collect firmware artifacts ==="
 rm -rf dist
 mkdir -p dist
 shopt -s nullglob
-for image in bin/targets/mediatek/filogic/*viettel_nr3053*.itb \
-             bin/targets/mediatek/filogic/*viettel_32x6*.itb; do
+for image in bin/targets/mediatek/filogic/*viettel_nr3053*.itb; do
     cp "$image" dist/
 done
 cp bin/targets/mediatek/filogic/sha256sums dist/ 2>/dev/null || true

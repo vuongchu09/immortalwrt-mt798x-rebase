@@ -1,8 +1,0 @@
-#!/bin/sh
-# Legacy CI inject — BBR/lang now handled by default-settings-vn.
-
-# Đổi IP LAN sang 192.168.68.1
-uci -q set network.lan.ipaddr='192.168.68.1'
-uci -q commit network
-
-exit 0

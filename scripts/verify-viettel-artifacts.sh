@@ -1,5 +1,5 @@
 #!/bin/bash
-# Ensure a release contains every flashable artifact for both supported boards.
+# Ensure a release contains every flashable artifact for NR3053 only.
 set -euo pipefail
 
 DIST_DIR="${1:-dist}"
@@ -9,15 +9,17 @@ DIST_DIR="${1:-dist}"
     exit 1
 }
 
-expected=()
-for board in viettel_nr3053 viettel_32x6; do
-    expected+=(
-        "immortalwrt-mediatek-filogic-${board}-squashfs-sysupgrade.itb"
-        "immortalwrt-mediatek-filogic-${board}-initramfs-recovery.itb"
-        "immortalwrt-mediatek-filogic-${board}-bl31-uboot.fip"
-        "immortalwrt-mediatek-filogic-${board}-preloader.bin"
-    )
-done
+expected=(
+    "immortalwrt-mediatek-filogic-viettel_nr3053-squashfs-sysupgrade.itb"
+    "immortalwrt-mediatek-filogic-viettel_nr3053-initramfs-recovery.itb"
+    "immortalwrt-mediatek-filogic-viettel_nr3053-bl31-uboot.fip"
+    "immortalwrt-mediatek-filogic-viettel_nr3053-preloader.bin"
+)
+
+if compgen -G "$DIST_DIR/*viettel_32x6*" >/dev/null; then
+    echo "Unexpected 32X6 artifacts in NR3053-only release." >&2
+    exit 1
+fi
 
 for artifact in "${expected[@]}"; do
     [[ -s "$DIST_DIR/$artifact" ]] || {
@@ -37,4 +39,4 @@ checksum_file="$DIST_DIR/sha256sums"
     sha256sum --check --strict sha256sums
 )
 
-echo "Viettel release artifacts OK (8 board-specific files and checksums)."
+echo "NR3053 release artifacts OK (4 board-specific files and checksums)."

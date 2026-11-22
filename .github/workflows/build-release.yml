@@ -146,7 +146,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.prepare.outputs.tag }}
-          name: ImmortalWrt ${{ needs.prepare.outputs.version }} — NR3053 & 32X6
+          name: ImmortalWrt ${{ needs.prepare.outputs.version }} — Viettel NR3053
           generate_release_notes: true
           make_latest: true
           overwrite_files: true

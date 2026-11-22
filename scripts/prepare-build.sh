@@ -1,5 +1,5 @@
 #!/bin/bash
-# Chuẩn bị build firmware Viettel NR3053 + 32X6.
+# Chuẩn bị build firmware Viettel NR3053.
 # Dùng cả khi build local và trong GitHub Actions.
 # Chạy từ thư mục gốc repo.
 #
@@ -13,13 +13,9 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"
 
 echo "=== Bước 1: Update và install feeds ==="
-# Bước 3 injects translations into the luci feed checkout on every run. Reset those
-# paths first so 'feeds update' never fails on a dirty-tree merge (they are
-# re-applied deterministically in Bước 3).
+# Restore base translation before feed updates; fork translations are re-applied below.
 if [[ -d feeds/luci/.git ]]; then
-    git -C feeds/luci checkout -- \
-        modules/luci-base/po/vi/base.po \
-        applications/luci-app-upnp/po/vi/upnp.po 2>/dev/null || true
+    git -C feeds/luci checkout -- modules/luci-base/po/vi/base.po 2>/dev/null || true
 fi
 ./scripts/feeds update -a
 ./scripts/feeds install -a
@@ -57,11 +53,7 @@ inject_po() {
     fi
 }
 
-# Bản dịch tiếng Việt cho từng app (chỗ nào upstream chưa có vi)
-inject_po custom-files/vi-upnp.po \
-    feeds/luci/applications/luci-app-upnp/po/vi upnp.po
-inject_po custom-files/vi-turboacc.po \
-    package/mtk/applications/luci-app-turboacc-mtk/po/vi turboacc.po
+# Bản dịch tiếng Việt cho MTK WiFi config.
 inject_po custom-files/vi-mtwifi-cfg.po \
     package/mtk/applications/luci-app-mtwifi-cfg/po/vi mtwifi-cfg.po
 
@@ -91,27 +83,7 @@ elif [ -f custom-files/default.vi.po ] || [ -f custom-files/more.vi.po ]; then
     echo "  CẢNH BÁO: thiếu msgcat (gettext), bỏ qua merge default/more.vi.po" >&2
 fi
 
-# UCI defaults tuỳ chỉnh Viettel (UPnP + BBR fallback)
-mkdir -p package/base-files/files/etc/uci-defaults
-cp custom-files/99-viettel-custom-defaults \
-    package/base-files/files/etc/uci-defaults/99-viettel-custom-defaults
-echo "  Đã copy 99-viettel-custom-defaults"
-
-# Services defaults: Adblock VN feed, DDNS cleanup
-if [ -f custom-files/99-viettel-services-defaults ]; then
-    cp custom-files/99-viettel-services-defaults \
-        package/base-files/files/etc/uci-defaults/99-viettel-services-defaults
-    echo "  Đã copy 99-viettel-services-defaults"
-fi
-
-# Adblock hostsVN patch script (first boot)
-if [ -f custom-files/etc/adblock/patch-reg_vn.sh ]; then
-    mkdir -p package/base-files/files/etc/adblock
-    cp custom-files/etc/adblock/patch-reg_vn.sh \
-        package/base-files/files/etc/adblock/patch-reg_vn.sh
-    chmod +x package/base-files/files/etc/adblock/patch-reg_vn.sh
-    echo "  Đã copy etc/adblock/patch-reg_vn.sh"
-fi
+# AGH remains disabled until the administrator completes its DNS setup.
 
 echo "=== Bước 4: Chuẩn bị .config từ $DEFCONFIG ==="
 cp "$DEFCONFIG" .config
