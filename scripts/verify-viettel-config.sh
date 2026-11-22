@@ -28,6 +28,8 @@ for symbol in \
     CONFIG_PACKAGE_luci-theme-aurora \
     CONFIG_PACKAGE_luci-app-aurora-config \
     CONFIG_PACKAGE_luci-app-adblock \
+    CONFIG_PACKAGE_adguardhome \
+    CONFIG_PACKAGE_luci-app-adguardhome \
     CONFIG_PACKAGE_luci-proto-wireguard; do
     require_enabled "$symbol"
 done
