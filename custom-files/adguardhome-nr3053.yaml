@@ -21,6 +21,10 @@ filters:
     url: "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"
     name: "AdGuard DNS filter"
     id: 1
+  - enabled: true
+    url: "https://adaway.org/hosts.txt"
+    name: "AdAway Hosts"
+    id: 2
 filtering:
   protection_enabled: true
   filtering_enabled: true
