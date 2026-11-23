@@ -1,0 +1,21 @@
+# AdGuard Home 1.0.0 config for Viettel NR3053.
+# DNS clients are routed through dnsmasq -> AGH:5353.
+http:
+  addresses:
+    - "192.168.1.1:3000"
+  secure_addresses: []
+  force_https: false
+dns:
+  addresses:
+    - "0.0.0.0:5353"
+  upstream_dns_file: "/etc/adguardhome/upstream_dns.txt"
+  fallback_dns:
+    - "1.1.1.1"
+    - "1.0.0.1"
+  bootstrap_dns:
+    - "1.1.1.1"
+    - "1.0.0.1"
+  upstream_mode: parallel
+  cache_size: 4194304
+users: []
+schema_version: 100
