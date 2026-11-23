@@ -83,7 +83,16 @@ elif [ -f custom-files/default.vi.po ] || [ -f custom-files/more.vi.po ]; then
     echo "  CẢNH BÁO: thiếu msgcat (gettext), bỏ qua merge default/more.vi.po" >&2
 fi
 
-# AGH remains disabled until the administrator completes its DNS setup.
+# Install the fork's first-boot AGH/DNS defaults into OpenWrt's rootfs overlay.
+# OpenWrt copies files/ into the image root; chmod scripts executable for firstboot/hotplug.
+mkdir -p files/etc/adguardhome files/etc/uci-defaults files/etc/hotplug.d/iface
+cp custom-files/adguardhome-nr3053.yaml files/etc/adguardhome/adguardhome.yaml
+cp custom-files/agh-nr3053-firstboot.sh files/etc/uci-defaults/99-viettel-agh-dns
+cp custom-files/agh-nr3053-wan-hotplug.sh files/etc/hotplug.d/iface/99-viettel-agh-wan-dns
+chmod 0755 files/etc/uci-defaults/99-viettel-agh-dns
+chmod 0755 files/etc/hotplug.d/iface/99-viettel-agh-wan-dns
+printf '%s\\n' '1.1.1.1' '1.0.0.1' > files/etc/adguardhome/upstream_dns.txt
+echo "  AGH first-boot DNS defaults installed (web :3000, DNS :5353)."
 
 echo "=== Bước 4: Chuẩn bị .config từ $DEFCONFIG ==="
 cp "$DEFCONFIG" .config
