@@ -70,4 +70,18 @@ for file in \
     }
 done
 
+AGH_CONFIG="custom-files/adguardhome-nr3053.yaml"
+for setting in \
+    'address: "192.168.1.1:3000"' \
+    'port: 5353' \
+    'upstream_dns_file:' \
+    'fallback_dns:' \
+    'schema_version: 35' \
+    'filtering_enabled: true'; do
+    grep -Fq "$setting" "$AGH_CONFIG" || {
+        echo "Missing AGH default setting: $setting" >&2
+        exit 1
+    }
+done
+
 echo "NR3053 firmware config OK (AGH auto-DNS + WireGuard; excluded extras disabled)."
