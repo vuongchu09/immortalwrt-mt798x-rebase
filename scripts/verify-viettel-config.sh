@@ -60,4 +60,14 @@ for symbol in \
     fi
 done
 
-echo "NR3053 firmware config OK (AGH + WireGuard; excluded extras disabled)."
+for file in \
+    custom-files/adguardhome-nr3053.yaml \
+    custom-files/agh-nr3053-firstboot.sh \
+    custom-files/agh-nr3053-wan-hotplug.sh; do
+    [[ -s "$file" ]] || {
+        echo "Missing AGH first-boot source file: $file" >&2
+        exit 1
+    }
+done
+
+echo "NR3053 firmware config OK (AGH auto-DNS + WireGuard; excluded extras disabled)."
