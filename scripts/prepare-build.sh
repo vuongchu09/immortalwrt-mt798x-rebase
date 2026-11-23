@@ -91,7 +91,7 @@ cp custom-files/agh-nr3053-firstboot.sh files/etc/uci-defaults/99-viettel-agh-dn
 cp custom-files/agh-nr3053-wan-hotplug.sh files/etc/hotplug.d/iface/99-viettel-agh-wan-dns
 chmod 0755 files/etc/uci-defaults/99-viettel-agh-dns
 chmod 0755 files/etc/hotplug.d/iface/99-viettel-agh-wan-dns
-printf '%s\\n' '1.1.1.1' '1.0.0.1' > files/etc/adguardhome/upstream_dns.txt
+printf '%s\n' '1.1.1.1' '1.0.0.1' > files/etc/adguardhome/upstream_dns.txt
 echo "  AGH first-boot DNS defaults installed (web :3000, DNS :5353)."
 
 echo "=== Bước 4: Chuẩn bị .config từ $DEFCONFIG ==="
