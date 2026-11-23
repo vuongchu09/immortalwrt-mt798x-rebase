@@ -40,7 +40,10 @@ fi
 
 for symbol in \
     CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_viettel_32x6 \
+    CONFIG_PACKAGE_adblock \
+    CONFIG_PACKAGE_adblock-fast \
     CONFIG_PACKAGE_luci-app-adblock \
+    CONFIG_PACKAGE_luci-app-adblock-fast \
     CONFIG_PACKAGE_luci-app-turboacc-mtk \
     CONFIG_PACKAGE_mtkhqos_util \
     CONFIG_PACKAGE_samba4-server \
