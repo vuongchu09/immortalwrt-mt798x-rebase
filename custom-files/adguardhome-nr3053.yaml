@@ -17,5 +17,12 @@ dns:
     - "1.0.0.1"
   upstream_mode: parallel
   cache_size: 4194304
+  protection_enabled: true
+  filtering_enabled: true
+filters:
+  - enabled: true
+    url: "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"
+    name: "AdGuard DNS filter"
+    id: 1
 users: []
 schema_version: 100
