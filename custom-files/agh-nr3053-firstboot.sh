@@ -9,9 +9,9 @@ if [ ! -s /etc/adguardhome/upstream_dns.txt ]; then
 fi
 
 # Keep dnsmasq on port 53 for LAN/DHCP, and forward its DNS queries to AGH.
-uci set dhcp.@dnsmasq[0].noresolv='1'
-uci -q delete dhcp.@dnsmasq[0].server
-uci add_list dhcp.@dnsmasq[0].server='127.0.0.1#5353'
+uci set 'dhcp.@dnsmasq[0].noresolv=1'
+uci -q delete 'dhcp.@dnsmasq[0].server'
+uci add_list 'dhcp.@dnsmasq[0].server=127.0.0.1#5353'
 
 # Tell DHCP clients to use the router as their DNS server.
 uci -q del_list dhcp.lan.dhcp_option='6,192.168.1.1'
