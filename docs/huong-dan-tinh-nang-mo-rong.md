@@ -9,19 +9,21 @@ Firmware được build riêng cho **Viettel NR3053**; IP LAN mặc định là 
 | AdGuard Home | LuCI → **Services → AdGuard Home** |
 | WireGuard VPN | LuCI → **Network → Interfaces** |
 
-AdGuard Home đã được cài sẵn nhưng dịch vụ mặc định đang tắt để tránh tranh cổng DNS với dnsmasq trước khi cấu hình.
+AdGuard Home được cấu hình tự động khi **flash mới** firmware. dnsmasq giữ port 53, chuyển tiếp truy vấn DNS sang AGH port 5353; DHCP cấp DNS router `192.168.1.1` cho client.
 
 ## AdGuard Home
 
-1. Vào **Services → AdGuard Home**, bật **Enable**, rồi **Save & Apply**.
-2. Mở `http://192.168.1.1:3000` để hoàn tất trình hướng dẫn lần đầu và đặt mật khẩu quản trị.
-3. Trong trình hướng dẫn, đặt cổng DNS của AdGuard Home là `5353` để không chiếm cổng `53` đang dùng bởi dnsmasq.
-4. Sau khi hoàn tất, vào **Network → DHCP and DNS → DNS forwardings** và đặt `127.0.0.1#5353` làm DNS chuyển tiếp; lưu cấu hình rồi kiểm tra phân giải DNS từ thiết bị trong LAN.
-5. Chỉ bật một bộ lọc quảng cáo. Sau khi AGH hoạt động, không cần cài lại Adblock cũ.
+- DNS listener: `0.0.0.0:5353`.
+- Web UI: `http://192.168.1.1:3000`.
+- Upstream ưu tiên DNS do WAN/ISP cấp; nếu WAN không cấp DNS, dùng Cloudflare `1.1.1.1` và `1.0.0.1`.
+- Cloudflare cũng được cấu hình làm fallback khi upstream WAN không phản hồi.
+- AGH tự enable và dnsmasq được cấu hình tự động sau first boot; không cần chạy wizard để DNS hoạt động.
 
-Để giảm bộ nhớ, bắt đầu với bộ lọc mặc định và thêm một danh sách phù hợp Việt Nam; tránh bật nhiều danh sách lớn cùng lúc. Trong trang **Services → AdGuard Home → Advanced Settings**, có thể đặt giới hạn bộ nhớ Go (GOMEMLIMIT) nếu cần.
+**Lưu ý bảo mật:** giao diện AGH được bind vào IP LAN router và mặc định không bật đăng nhập AGH riêng. Chỉ thiết bị trong LAN mới truy cập được; không mở port 3000 ra WAN.
 
-Nếu DNS không hoạt động sau khi bật AGH, khôi phục DNS forwardings về cấu hình trước đó từ **Network → DHCP and DNS**.
+Sau khi flash, client có thể cần renew DHCP lease hoặc reconnect Wi-Fi để nhận DNS router. Cấu hình này áp dụng cho flash mới; khi nâng cấp sysupgrade, các file cấu hình trong `/etc` hiện có sẽ được giữ theo cơ chế OpenWrt.
+
+Để giảm bộ nhớ, giữ filter list vừa phải và tránh bật nhiều danh sách trùng lặp.
 
 ## WireGuard VPN
 
