@@ -1,13 +1,12 @@
-# AdGuard Home 1.0.0 config for Viettel NR3053.
-# DNS clients are routed through dnsmasq -> AGH:5353.
+# AdGuard Home config for the OpenWrt packages feed's AGH 1.0.0.
+# dnsmasq forwards client requests to AGH on 5353; the AGH UI stays LAN-only.
 http:
-  addresses:
-    - "192.168.1.1:3000"
-  secure_addresses: []
-  force_https: false
+  address: "192.168.1.1:3000"
+  session_ttl: 720h
 dns:
-  addresses:
-    - "0.0.0.0:5353"
+  bind_hosts:
+    - "0.0.0.0"
+  port: 5353
   upstream_dns_file: "/etc/adguardhome/upstream_dns.txt"
   fallback_dns:
     - "1.1.1.1"
@@ -17,12 +16,14 @@ dns:
     - "1.0.0.1"
   upstream_mode: parallel
   cache_size: 4194304
-  protection_enabled: true
-  filtering_enabled: true
 filters:
   - enabled: true
     url: "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"
     name: "AdGuard DNS filter"
     id: 1
+filtering:
+  protection_enabled: true
+  filtering_enabled: true
+  filters_update_interval_hours: 24
 users: []
-schema_version: 100
+schema_version: 35
