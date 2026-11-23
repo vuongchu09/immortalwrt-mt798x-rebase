@@ -18,6 +18,7 @@ AdGuard Home được cấu hình tự động khi **flash mới** firmware. dns
 - Upstream ưu tiên DNS do WAN/ISP cấp; nếu WAN không cấp DNS, dùng Cloudflare `1.1.1.1` và `1.0.0.1`.
 - Cloudflare cũng được cấu hình làm fallback khi upstream WAN không phản hồi.
 - AGH tự enable và dnsmasq được cấu hình tự động sau first boot; không cần chạy wizard để DNS hoạt động.
+- Bật sẵn một danh sách lọc mặc định **AdGuard DNS filter**; AGH tự tải và cập nhật danh sách khi router có Internet.
 
 **Lưu ý bảo mật:** giao diện AGH được bind vào IP LAN router và mặc định không bật đăng nhập AGH riêng. Chỉ thiết bị trong LAN mới truy cập được; không mở port 3000 ra WAN.
 
