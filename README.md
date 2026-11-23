@@ -29,7 +29,7 @@ Tải bản mới nhất tại [Releases](https://github.com/vuongchu09/immortal
 ## Điểm chính của bản fork
 
 - LED WAN riêng cho NR3053.
-- Aurora, WireGuard và AdGuard Home đã có trong firmware. AGH mặc định tắt dịch vụ để tránh xung đột DNS trước khi cấu hình.
+- Aurora, WireGuard và AdGuard Home đã có trong firmware. AGH tự cấu hình sau flash mới: web UI port 3000, DNS port 5353, upstream WAN/ISP và Cloudflare fallback; dnsmasq/DHCP được nối sẵn.
 - Không cài TurboACC, EQoS, UPnP, DDNS, Tailscale, SQM, terminal web, Samba hoặc Adblock cũ.
 - Profile build và Release hiện chỉ chọn NR3053, không tạo firmware 32X6.
 - Band steering được hỗ trợ ở driver nhưng tắt mặc định (`BandSteering=0`).
